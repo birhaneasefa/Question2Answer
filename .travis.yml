@@ -10,11 +10,8 @@ php:
   - '5.6'
   - '7.0'
   - '7.1'
-
-matrix:
-  include:
-    - php: '5.3'
-      dist: precise
+  - '7.2'
+  - '7.3'
 
 notifications:
   email:
@@ -32,5 +29,14 @@ before_script:
 script:
   # PHP_CodeSniffer
   - php phpcs.phar --report=emacs --extensions=php --standard=qa-tests/phpcs/ruleset.xml .
+  - php phpcs.phar --report=emacs --extensions=php --standard=qa-tests/phpcs/ruleset-strict.xml qa-src/
   # PHPUnit
   - php phpunit.phar --bootstrap qa-tests/autoload.php qa-tests
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+
+git:
+  depth: 5
+
